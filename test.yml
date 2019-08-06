@@ -3,5 +3,5 @@ services:
   app:
     image: alpine
     command: printenv
-    enviroment:
+    environment:
       - FIRST_KEY=${MY1STVALUE}
