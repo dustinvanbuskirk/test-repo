@@ -1,7 +1,7 @@
 version: '2'
 services:
   app:
-    image: alpine:${TAG}
+    image: "alpine:${TAG}"
     command: printenv
     environment:
       - FIRST_KEY=${MY1STVALUE}
