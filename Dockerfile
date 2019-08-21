@@ -1,2 +1,2 @@
-FROM docker:stable-git
-RUN docker build github.com/dustinvanbuskirk/cf-demo-bot
+FROM 839151377425.dkr.ecr.us-east-2.amazonaws.com/sales-demo
+RUN echo "hi"
