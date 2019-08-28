@@ -1,3 +1,3 @@
-ARG BASE
-FROM testa:${VERSION}
+ARG VERSION
+FROM r.cfcr.io/dustinvanbuskirk/testa:${VERSION}
 RUN echo "my world"
