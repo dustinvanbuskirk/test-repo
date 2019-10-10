@@ -1,0 +1,6 @@
+[submodule "vendor/example-voting-app"]
+	path = vendor/example-voting-app
+	url = https://github.com/dustinvanbuskirk/example-voting-app
+[submodule "vendor/docker-ubuntu-mysql-client"]
+	path = vendor/docker-ubuntu-mysql-client
+	url = https://github.com/dustinvanbuskirk/dustinvanbuskirk/docker-ubuntu-mysql-client
