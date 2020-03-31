@@ -1,0 +1,52 @@
+version: '1.0'
+steps:
+  Echo:
+    image: alpine
+    commands:
+      - env
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: example-voting-app/worker
+    working_directory: ./worker/
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}'
+    dockerfile: Dockerfile
+    on_success:
+      metadata:
+        set:
+          - '${{BuildingDockerImage.imageId}}':
+            - CF_QUALITY: true
+            - Performance: true
+            - Latency: ".46" 
+            - Test_Coverage: "68%"
+            - JIRA: "https://codefresh-io.atlassian.net/browse/MKTG-12"
+  SetTags:
+    image: alpine
+    commands:
+      - cf_export MY_TAGS="'tag1','tag2'"
+  Push:
+    type: push
+    title: Step Title
+    description: Free text description
+    candidate: ${{BuildingDockerImage}}
+    tags: [${{MY_TAGS}}]
+    image_name: codefresh/app
+    registry: my-registry
+    fail_fast: false
+  PrismaCloudImageScan:
+    type: dustinvanbuskirk/prisma-cloud
+    arguments:
+      IMAGE_NAME: dustinvanbuskirk/example-voting-app/worker
+      IMAGE_TAG: ${{CF_BRANCH_TAG_NORMALIZED}}-${{CF_SHORT_REVISION}}
+      PC_HOSTNAME: "35.233.229.69"
+      PC_PORT: "8081"
+      PC_USERNAME: codefresh-admin
+      PC_PASSWORD: mypassword
+      PC_PROTOCOL: http
+      REGISTRY: https://r.cf-cd.com
+      COMPLIANCE_THRESHOLD: high
+      VULNERABILITY_THRESHOLD: high
+  DisplayPrismaCloudReport:
+    image: codefresh/cli
+    commands:
+      - cat /codefresh/volume/TL_report_dustinvanbuskirk_example-voting-app_worker_master-642a8f3.json
